@@ -28,13 +28,20 @@ async def test_db_updates(service_client):
     assert response.status == 200
     assert response.text == 'Hi again, World!\n'
 
-    response = await service_client.post('v1/user', json={'full_name': 'arkady', 'tg_id': '@hey'})
+    response = await service_client.post('v1/user',
+                                         json={'full_name': 'arkady',
+                                               'tg_id': '@hey'})
     assert response.status == 200
-    assert response.json() == {'full_name': 'arkady', 'id' : 1, 'tg_id': '@hey' }
+    assert response.json() == {'full_name': 'arkady',
+                               'id': 1,
+                               'tg_id': '@hey'}
 
     response = await service_client.get('v1/user', params={'id': '1'})
     assert response.status == 200
-    assert response.json() == {'full_name': 'arkady', 'id' : 1, 'tg_id': '@hey' }
+    assert response.json() == {'full_name': 'arkady',
+                               'id': 1,
+                               'tg_id': '@hey'}
+
 
 @pytest.mark.pgsql('db_1', files=['initial_data.sql'])
 async def test_db_initial_data(service_client):
