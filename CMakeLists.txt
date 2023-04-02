@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(pg_service_template CXX)
+project(academy CXX)
 
 include(third_party/userver/cmake/SetupEnvironment.cmake)
 include(GNUInstallDirs)
@@ -9,8 +9,11 @@ add_subdirectory(third_party/userver)
 
 # Common sources
 add_library(${PROJECT_NAME}_objs OBJECT
-    src/hello.hpp
-    src/hello.cpp
+    src/handlers/hello.hpp
+    src/handlers/hello.cpp
+		src/handlers/user_operation.hpp
+		src/handlers/user_operation.cpp
+		src/model/user.hpp
 )
 target_link_libraries(${PROJECT_NAME}_objs PUBLIC userver-core userver-postgresql)
 

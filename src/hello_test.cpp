@@ -1,10 +1,10 @@
-#include "hello.hpp"
+#include "handlers/hello.hpp"
 
 #include <userver/utest/utest.hpp>
 
 UTEST(SayHelloTo, Basic) {
-  using pg_service_template::SayHelloTo;
-  using pg_service_template::UserType;
+  using handlers::SayHelloTo;
+  using handlers::UserType;
 
   EXPECT_EQ(SayHelloTo("Developer", UserType::kFirstTime),
             "Hello, Developer!\n");

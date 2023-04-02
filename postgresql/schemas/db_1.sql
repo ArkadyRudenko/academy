@@ -1,8 +1,17 @@
-DROP SCHEMA IF EXISTS hello_schema CASCADE;
+DROP SCHEMA IF EXISTS academy CASCADE;
 
-CREATE SCHEMA IF NOT EXISTS hello_schema;
+CREATE SCHEMA IF NOT EXISTS academy;
 
-CREATE TABLE IF NOT EXISTS hello_schema.users (
+-- DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS new_users;
+
+CREATE TABLE IF NOT EXISTS academy.users (
     name TEXT PRIMARY KEY,
     count INTEGER DEFAULT(1)
+);
+
+CREATE TABLE IF NOT EXISTS academy.new_users (
+    id SERIAL PRIMARY KEY,
+    full_name VARCHAR(80) NOT NULL,
+    tg_id VARCHAR(80) NOT NULL
 );
