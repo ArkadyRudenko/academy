@@ -11,7 +11,17 @@ CREATE TABLE IF NOT EXISTS academy.users (
 );
 
 CREATE TABLE IF NOT EXISTS academy.new_users (
-    id SERIAL PRIMARY KEY,
+    user_id SERIAL PRIMARY KEY,
+    login VARCHAR(80) NOT NULL,
+    password VARCHAR(80) NOT NULL,
     full_name VARCHAR(80) NOT NULL,
     tg_id VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS academy.tokens (
+    token TEXT PRIMARY KEY NOT NULL,
+    user_id integer NOT NULL,
+    scopes TEXT[] NOT NULL,
+    name TEXT NOT NULL,
+    updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

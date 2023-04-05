@@ -33,13 +33,13 @@ async def test_db_updates(service_client):
                                                'tg_id': '@hey'})
     assert response.status == 200
     assert response.json() == {'full_name': 'arkady',
-                               'id': 1,
+                               'user_id': 1,
                                'tg_id': '@hey'}
 
-    response = await service_client.get('v1/user', params={'id': '1'})
+    response = await service_client.get('v1/user', params={'user_id': '1'})
     assert response.status == 200
     assert response.json() == {'full_name': 'arkady',
-                               'id': 1,
+                               'user_id': 1,
                                'tg_id': '@hey'}
 
 

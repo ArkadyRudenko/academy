@@ -6,14 +6,26 @@ include(GNUInstallDirs)
 
 add_subdirectory(third_party/userver)
 
+#get_filename_component(ACADEMY_PATH "./src" ABSOLUTE)
+#
+#file(GLOB_RECURSE LIB_CXX_SOURCES ${ACADEMY_PATH}/*.cpp)
+#file(GLOB_RECURSE LIB_HEADERS ${ACADEMY_PATH}/*.hpp)
 
 # Common sources
 add_library(${PROJECT_NAME}_objs OBJECT
-    src/handlers/hello.hpp
-    src/handlers/hello.cpp
-		src/handlers/user_operation.hpp
-		src/handlers/user_operation.cpp
+#    ${LIB_CXX_SOURCES} ${LIB_HEADERS}
+		src/handlers/hello.cpp
+		src/handlers/hello.hpp
 		src/model/user.hpp
+		src/auth/user_info_cache.hpp
+		src/auth/user_info_cache.cpp
+		src/auth/auth_bearer.cpp
+		src/auth/auth_bearer.hpp
+		src/handlers/auth/login.cpp
+		src/handlers/auth/login.hpp
+		src/handlers/auth/signup.hpp
+		src/handlers/get_account_info.hpp
+		src/db/db_requests.hpp
 )
 target_link_libraries(${PROJECT_NAME}_objs PUBLIC userver-core userver-postgresql)
 
