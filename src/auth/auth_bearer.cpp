@@ -9,6 +9,15 @@ AuthCheckerBearer::AuthCheckResult AuthCheckerBearer::CheckAuth(
     const server::http::HttpRequest& request,
     server::request::RequestContext& request_context) const {
   const auto& auth_value = request.GetHeader("Authorization");
+
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << auth_value;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+
   if (auth_value.empty()) {
     return AuthCheckResult{AuthCheckResult::Status::kTokenNotFound,
                            {},
@@ -32,7 +41,7 @@ AuthCheckerBearer::AuthCheckResult AuthCheckerBearer::CheckAuth(
 
   auto it = cache_snapshot->find(token);
   if (it == cache_snapshot->end()) {
-    return AuthCheckResult{AuthCheckResult::Status::kForbidden};
+    return AuthCheckResult{AuthCheckResult::Status::kForbidden, {}, "Invalid Token"};
   }
 
   const UserDbInfo& info = it->second;

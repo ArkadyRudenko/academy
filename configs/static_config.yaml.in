@@ -82,7 +82,6 @@ components_manager:
                   - bearer  # Authorization type that was specified in main()
                 scopes:     # Required user scopes for that handler
                   - read
-                  - hello
 
 
         academy:
@@ -93,7 +92,7 @@ components_manager:
 
         auth-pg-cache:
             pgcomponent: academy
-            update-interval: 1s
+            update-interval: 10s
 
         dns-client:
             fs-task-processor: fs-task-processor

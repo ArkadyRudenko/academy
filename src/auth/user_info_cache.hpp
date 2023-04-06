@@ -40,7 +40,7 @@ struct AuthCachePolicy {
   using ValueType = UserDbInfo;
   static constexpr auto kKeyMember = &UserDbInfo::token;
   static constexpr const char* kQuery =
-      "SELECT token, user_id, scopes, name FROM academy.tokens";
+      "SELECT token, user_id, scopes, name, updated FROM academy.tokens";
   static constexpr const char* kUpdatedField = "updated";
   using UpdatedFieldType = storages::postgres::TimePointTz;
 
@@ -62,6 +62,11 @@ namespace userver::storages::postgres::io {
 
 template <>
 struct CppToUserPg<auth::AccessToken> {
+  static constexpr DBTypeName postgres_name = "academy.tokens";
+};
+
+template <>
+struct CppToUserPg<auth::UserDbInfo> {
   static constexpr DBTypeName postgres_name = "academy.tokens";
 };
 

@@ -1,4 +1,5 @@
 import pytest
+import time
 
 from testsuite.databases import pgsql
 
@@ -28,19 +29,41 @@ async def test_db_updates(service_client):
     assert response.status == 200
     assert response.text == 'Hi again, World!\n'
 
-    response = await service_client.post('v1/user',
-                                         json={'full_name': 'arkady',
-                                               'tg_id': '@hey'})
-    assert response.status == 200
-    assert response.json() == {'full_name': 'arkady',
-                               'user_id': 1,
-                               'tg_id': '@hey'}
 
-    response = await service_client.get('v1/user', params={'user_id': '1'})
+async def test_login(service_client):
+    response = await service_client.post('v1/signup',
+                                         json={'login': 'test@gmail.com',
+                                               'password': 'qwerty',
+                                               'full_name': 'arkady',
+                                               'tg_id': '@test'})
     assert response.status == 200
-    assert response.json() == {'full_name': 'arkady',
-                               'user_id': 1,
-                               'tg_id': '@hey'}
+
+    right_json = {'user_id': 1,
+                  'login': 'test@gmail.com',
+                  'full_name': 'arkady',
+                  'tg_id': '@test'}
+
+    assert response.json() == right_json
+
+    user_id = response.json()['user_id']
+
+    response = await service_client.get('v1/login', json={'login': 'test@gmail.com',
+                                                          'password': 'qwerty'})
+    assert response.status == 200
+    json = response.json()
+
+    access_token = json['access_token']
+
+    token = ' Bearer ' + access_token
+    response = await service_client.get('v1/account', json={'user_id': user_id},
+                                        headers={'Authorization': token})
+
+    while response.status == 403:
+        response = await service_client.get('v1/account', json={'user_id': user_id},
+                                            headers={'Authorization': token})
+
+    assert response.status == 200
+    assert response.json() == right_json
 
 
 @pytest.mark.pgsql('db_1', files=['initial_data.sql'])
