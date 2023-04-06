@@ -47,19 +47,24 @@ async def test_login(service_client):
 
     user_id = response.json()['user_id']
 
-    response = await service_client.get('v1/login', json={'login': 'test@gmail.com',
-                                                          'password': 'qwerty'})
+    response = await service_client.get('v1/login', json={
+        'login': 'test@gmail.com',
+        'password': 'qwerty'})
+
     assert response.status == 200
     json = response.json()
 
     access_token = json['access_token']
 
     token = ' Bearer ' + access_token
-    response = await service_client.get('v1/account', json={'user_id': user_id},
+    response = await service_client.get('v1/account',
+                                        json={'user_id': user_id},
                                         headers={'Authorization': token})
 
+    # Cache update interval is 10s =(
     while response.status == 403:
-        response = await service_client.get('v1/account', json={'user_id': user_id},
+        response = await service_client.get('v1/account',
+                                            json={'user_id': user_id},
                                             headers={'Authorization': token})
 
     assert response.status == 200
