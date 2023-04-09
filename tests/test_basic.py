@@ -55,17 +55,12 @@ async def test_login(service_client):
     json = response.json()
 
     access_token = json['access_token']
-
     token = ' Bearer ' + access_token
+
+    time.sleep(10)
     response = await service_client.get('v1/account',
                                         json={'user_id': user_id},
                                         headers={'Authorization': token})
-
-    # Cache update interval is 10s =(
-    while response.status == 403:
-        response = await service_client.get('v1/account',
-                                            json={'user_id': user_id},
-                                            headers={'Authorization': token})
 
     assert response.status == 200
     assert response.json() == right_json
